@@ -32,7 +32,10 @@ export default function Login() {
     <div className="login-page">
       <div>
         <h1 style={{ margin: 0 }}>Login</h1>
-        <form style={{ marginTop: "1rem" }} onSubmit={handleLogin}>
+        <form
+          style={{ marginTop: "1rem", display: "flex", flexDirection: "column" }}
+          onSubmit={handleLogin}
+        >
           <input
             type="text"
             placeholder="Username"

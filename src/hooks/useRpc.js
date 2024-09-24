@@ -7,11 +7,6 @@ const useRpc = () => {
   const [rpc, setRpc] = useState(null);
   const [isRpcConnected, setIsRpcConnected] = useState(false);
 
-  const updateConnectionStatus = (isConnected) => {
-    setIsRpcConnected(isConnected);
-    localStorage.setItem("isRpcConnected", isConnected);
-  };
-
   const jsonRpc = useCallback(({ onopen, onclose, onnotification }) => {
     let rpcid = 0;
     const pending = {};
@@ -20,9 +15,7 @@ const useRpc = () => {
     return new Promise((resolve, reject) => {
       ws.onopen = () => {
         console.log("WebSocket connection established.");
-        updateConnectionStatus(true);
         if (onopen) onopen();
-
         resolve({
           close: () => ws.close(),
           call: (method, params) => {
@@ -49,13 +42,11 @@ const useRpc = () => {
 
       ws.onerror = (error) => {
         console.error("WebSocket error:", error);
-        updateConnectionStatus(false);
         reject(new Error("Failed to connect to WebSocket server."));
       };
 
       ws.onclose = () => {
         console.log("WebSocket connection closed.");
-        updateConnectionStatus(false);
         if (onclose) onclose();
         reject(new Error("WebSocket connection closed."));
       };
@@ -83,20 +74,21 @@ const useRpc = () => {
         onnotification: (msg) => console.log("Received notification:", JSON.stringify(msg)),
       });
       setRpc(rpcInstance);
-      updateConnectionStatus(true);
+      setIsRpcConnected(true);
     } catch (error) {
       console.error("Error connecting to RPC:", error);
-      updateConnectionStatus(false);
+      setRpc(null);
+      setIsRpcConnected(false);
     }
   }, [jsonRpc]);
 
   useEffect(() => {
-    connectRpc();
+    localStorage.setItem("isRpcConnected", isRpcConnected);
+  }, [isRpcConnected]);
 
-    return () => {
-      if (rpc) rpc.close();
-    };
-  }, [connectRpc, rpc]);
+  useEffect(() => {
+    connectRpc();
+  }, [connectRpc]);
 
   return { isRpcConnected, connectRpc, rpc };
 };
