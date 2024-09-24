@@ -7,20 +7,10 @@ export default function Dashboard() {
   const { isRpcConnected, rpc } = useRpc();
   const [username, setUsername] = useState("");
 
-  useEffect(() => {
-    const username = localStorage.getItem("username");
-    if (!username) {
-      navigate("/");
-    } else if (!isRpcConnected) {
-      navigate("/error");
-    } else {
-      setUsername(username);
-    }
-  }, [isRpcConnected, navigate]);
-
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("username");
+    localStorage.removeItem("isRpcConnected");
     navigate("/");
   };
 
@@ -37,6 +27,18 @@ export default function Dashboard() {
     rpc.call("av_settings", params);
   };
 
+  useEffect(() => {
+    console.log("isRpcConnected :>> ", isRpcConnected);
+    const username = localStorage.getItem("username");
+    if (!username) {
+      navigate("/");
+    } else if (!isRpcConnected) {
+      navigate("/error");
+    } else {
+      setUsername(username);
+    }
+  }, [isRpcConnected, navigate]);
+
   return (
     <div id="dashboardPage" className="dashboard active">
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -48,7 +50,7 @@ export default function Dashboard() {
       <h3>{`Hello, ${username}!`}</h3>
 
       <h2>Camera Settings</h2>
-      <h3 style={{ background: "#efef04", width: "fit-content", padding: "1rem" }}>Video</h3>
+      <h3 style={{ background: "#efef04", width: "fit-content", padding: "0.5rem 1rem" }}>Video</h3>
 
       <div id="video-settings">
         <h3>Main Stream</h3>
@@ -124,7 +126,7 @@ export default function Dashboard() {
             </select>
           </div>
 
-          <button type="submit" style={{ marginTop: "1rem" }}>
+          <button type="submit" style={{ marginTop: "1rem", width: "300px" }}>
             Submit
           </button>
         </form>

@@ -3,9 +3,11 @@ import { useState, useEffect, useCallback } from "react";
 const RPC_SERVER_URL = "ws://10.0.2.15:8000/websocket";
 const JSON_RPC_TIMEOUT_MS = 5000;
 
-const useRpc = () => {
+export default function useRpc() {
   const [rpc, setRpc] = useState(null);
-  const [isRpcConnected, setIsRpcConnected] = useState(false);
+  const [isRpcConnected, setIsRpcConnected] = useState(
+    localStorage.getItem("isRpcConnected") === "true"
+  );
 
   const jsonRpc = useCallback(({ onopen, onclose, onnotification }) => {
     let rpcid = 0;
@@ -91,6 +93,4 @@ const useRpc = () => {
   }, [connectRpc]);
 
   return { isRpcConnected, connectRpc, rpc };
-};
-
-export default useRpc;
+}

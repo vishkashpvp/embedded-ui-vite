@@ -22,9 +22,8 @@ input {
 }
 
 button {
-  min-width: 300px;
-  max-width: 400px;
   width: 100%;
+  max-width: 400px;
   padding: 10px;
   color: black;
   background-color: #b2fff1;

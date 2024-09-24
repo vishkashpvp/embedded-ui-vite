@@ -4,29 +4,22 @@ import useRpc from "../hooks/useRpc";
 
 export default function Error() {
   const navigate = useNavigate();
-  const { connectRpc } = useRpc();
-
-  useEffect(() => {
-    const isConnected = localStorage.getItem("isRpcConnected") === "true";
-    if (isConnected) {
-      navigate("/dashboard");
-    }
-  }, [navigate]);
+  const { connectRpc, isRpcConnected } = useRpc();
 
   const handleReconnect = async () => {
     try {
       await connectRpc();
 
-      const isConnected = localStorage.getItem("isRpcConnected") === "true";
-      if (isConnected) {
-        navigate("/dashboard");
-      } else {
-        alert("Failed to reconnect. Please try again.");
-      }
+      if (isRpcConnected) navigate("/dashboard");
+      else alert("Failed to reconnect. Please try again.");
     } catch (err) {
       console.log("Error:", err);
     }
   };
+
+  useEffect(() => {
+    if (isRpcConnected) navigate("/dashboard");
+  }, [isRpcConnected, navigate]);
 
   return (
     <div className="error-page">
