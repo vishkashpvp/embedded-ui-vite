@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 
-const RPC_SERVER_URL = "ws://10.0.2.15:8000/websocket";
+const hostname = window.location.hostname;
+const RPC_SERVER_URL = `ws://${hostname}:8000/websocket`;
 const JSON_RPC_TIMEOUT_MS = 5000;
 
 export default function useRpc() {
