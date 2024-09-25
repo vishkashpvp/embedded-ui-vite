@@ -1,11 +1,38 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useRpc from "../hooks/useRpc";
+import StreamSettings from "./StreamSettings";
+
+const mainStreamOptions = {
+  resolution: ["1280x720", "1920x1080", "3840×2160"],
+  bitrate: ["512", "1024", "2048", "3172", "4096", "5120", "8192"],
+  fps: ["5", "10", "15", "20", "25", "30"],
+  audioFormat: ["PCM", "AAC"],
+  videoFormat: ["H264", "H265"],
+};
+
+const subStreamOptions = {
+  resolution: ["640x480", "720x576"],
+  bitrate: ["256", "512", "1024", "2048", "5120"],
+  fps: ["5", "10", "15", "20", "25", "30"],
+  audioFormat: ["PCM", "AAC"],
+  videoFormat: ["H264", "H265"],
+};
+
+const defaultStreamValues = {
+  resolution: "",
+  bitrate: "",
+  fps: "",
+  audioFormat: "",
+  videoFormat: "",
+};
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const { isRpcConnected, rpc } = useRpc();
   const [username, setUsername] = useState("");
+  const [mainStreamValues, setMainStreamValues] = useState(defaultStreamValues);
+  const [subStreamValues, setSubStreamValues] = useState(defaultStreamValues);
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -14,21 +41,27 @@ export default function Dashboard() {
     navigate("/");
   };
 
+  const handleChange = (stream, key, value) => {
+    if (stream === "main") {
+      setMainStreamValues((prev) => ({ ...prev, [key]: value }));
+    } else {
+      setSubStreamValues((prev) => ({ ...prev, [key]: value }));
+    }
+  };
+
+  const isFormValid = () => {
+    const hasEmptyMainStream = Object.values(mainStreamValues).some((value) => value === "");
+    const hasEmptySubStream = Object.values(subStreamValues).some((value) => value === "");
+    return !hasEmptyMainStream && !hasEmptySubStream;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = {
-      resolution: document.getElementById("resolution").value,
-      bitrate: document.getElementById("bitrate").value,
-      fps: document.getElementById("fps").value,
-      audioFormat: document.getElementById("audioFormat").value,
-      videoFormat: document.getElementById("videoFormat").value,
-    };
-    const params = { mainStream: formData, subStream: formData };
+    const params = { mainStream: mainStreamValues, subStream: subStreamValues };
     rpc.call("av_settings", params);
   };
 
   useEffect(() => {
-    console.log("isRpcConnected :>> ", isRpcConnected);
     const username = localStorage.getItem("username");
     if (!username) {
       navigate("/");
@@ -50,87 +83,29 @@ export default function Dashboard() {
       <h3>{`Hello, ${username}!`}</h3>
 
       <h2>Camera Settings</h2>
-      <h3 style={{ background: "#efef04", width: "fit-content", padding: "0.5rem 1rem" }}>Video</h3>
 
-      <div id="video-settings">
-        <h3>Main Stream</h3>
-        <form id="resolutionForm" onSubmit={handleSubmit}>
-          <div style={{ display: "flex" }}>
-            <label htmlFor="resolution" style={{ width: "150px" }}>
-              Resolution:
-            </label>
-            <select id="resolution">
-              <option value="" disabled selected>
-                Select a resolution
-              </option>
-              <option value="1280x720">1280x720</option>
-              <option value="1920x1080">1920x1080</option>
-              <option value="3840x2160">3840×2160</option>
-            </select>
-          </div>
-          <div style={{ display: "flex", marginTop: "0.75rem" }}>
-            <label htmlFor="bitrate" style={{ width: "150px" }}>
-              Bitrate:
-            </label>
-            <select id="bitrate">
-              <option value="" disabled selected>
-                Select a bitrate
-              </option>
-              <option value="512">512</option>
-              <option value="1024">1024</option>
-              <option value="2048">2048</option>
-              <option value="3172">3172</option>
-              <option value="4096">4096</option>
-              <option value="5120">5120</option>
-              <option value="8192">8192</option>
-            </select>
-          </div>
-          <div style={{ display: "flex", marginTop: "0.75rem" }}>
-            <label htmlFor="fps" style={{ width: "150px" }}>
-              FPS:
-            </label>
-            <select id="fps">
-              <option value="" disabled selected>
-                Select FPS
-              </option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-              <option value="20">20</option>
-              <option value="25">25</option>
-              <option value="30">30</option>
-            </select>
-          </div>
-          <div style={{ display: "flex", marginTop: "0.75rem" }}>
-            <label htmlFor="audioFormat" style={{ width: "150px" }}>
-              Audio Format:
-            </label>
-            <select id="audioFormat">
-              <option value="" disabled selected>
-                Select an audio format
-              </option>
-              <option value="PCM">PCM</option>
-              <option value="AAC">AAC</option>
-            </select>
-          </div>
-          <div style={{ display: "flex", marginTop: "0.75rem" }}>
-            <label htmlFor="videoFormat" style={{ width: "150px" }}>
-              Video Format:
-            </label>
-            <select id="videoFormat">
-              <option value="" disabled selected>
-                Select a video format
-              </option>
-              <option value="H264">H264</option>
-              <option value="H265">H265</option>
-            </select>
-          </div>
-
-          <button type="submit" style={{ marginTop: "1rem", width: "300px" }}>
-            Submit
-          </button>
-        </form>
-      </div>
+      <h2>Video</h2>
+      <form id="resolutionForm" onSubmit={handleSubmit}>
+        <StreamSettings
+          name={"main"}
+          values={mainStreamValues}
+          handleChange={handleChange}
+          options={mainStreamOptions}
+        />
+        <StreamSettings
+          name="sub"
+          values={subStreamValues}
+          handleChange={handleChange}
+          options={subStreamOptions}
+        />
+        <button
+          type="submit"
+          style={{ marginTop: "1rem", width: "300px" }}
+          disabled={!isFormValid()}
+        >
+          Submit
+        </button>
+      </form>
     </div>
   );
 }
