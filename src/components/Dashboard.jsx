@@ -33,6 +33,13 @@ export default function Dashboard() {
   const [username, setUsername] = useState("");
   const [mainStreamValues, setMainStreamValues] = useState(defaultStreamValues);
   const [subStreamValues, setSubStreamValues] = useState(defaultStreamValues);
+  const [apiData, setApiData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const hostname = window.location.hostname;
+  const API_CONFIG = `${hostname}:8000/config/get`;
+  const API_CAT_FACTS = "https://catfact.ninja/fact";
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -62,6 +69,10 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    console.log("apiData :>> ", apiData);
+  }, [apiData]);
+
+  useEffect(() => {
     const username = localStorage.getItem("username");
     if (!username) {
       navigate("/");
@@ -69,8 +80,29 @@ export default function Dashboard() {
       navigate("/error");
     } else {
       setUsername(username);
+
+      fetch(API_CONFIG)
+        .then((data) => console.log("data :>> ", data))
+        .catch((err) => console.log("err :>> ", err));
+
+      fetch(API_CAT_FACTS)
+        .then((response) => {
+          if (!response.ok) throw new Error("Network response was not ok");
+          return response.json();
+        })
+        .then((data) => {
+          setApiData(data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+        });
     }
-  }, [isRpcConnected, navigate]);
+  }, [API_CONFIG, isRpcConnected, navigate]);
+
+  if (loading) return <p>Loading dashboard data...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div id="dashboardPage" className="dashboard active">
@@ -81,6 +113,7 @@ export default function Dashboard() {
         </button>
       </div>
       <h3>{`Hello, ${username}!`}</h3>
+      <div style={{ backgroundColor: "#b2fff1", padding: "1rem" }}>{apiData?.fact}</div>
 
       <h2>Camera Settings</h2>
 
