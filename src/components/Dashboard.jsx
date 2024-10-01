@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useRpc from "../hooks/useRpc";
 import StreamSettings from "./StreamSettings";
+import { Tab, Tabs } from "./Tabs";
+import Login from "./Login";
 
 const mainStreamOptions = {
   resolution: ["1280x720", "1920x1080", "3840×2160"],
@@ -103,12 +105,21 @@ export default function Dashboard() {
     <div id="dashboardPage" className="flex flex-col w-screen h-screen overflow-y-auto">
       <div className="sticky top-0 flex items-center justify-between w-full p-3 text-white bg-black">
         <h1 className="m-0 text-3xl font-bold">Welcome Dashboard</h1>
-        <button className="w-[100px]" onClick={handleLogout}>
-          Logout
-        </button>
+        <div className="flex items-center">
+          <p className="text-xl">{username}</p>
+          <button className="ms-5 w-[100px]" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       </div>
       <div className="p-5">
-        <h3 className="text-xl">{`Hello, ${username}!`}</h3>
+        <Tabs>
+          <Tab component="camera settings component" active>
+            Camera Settings
+          </Tab>
+          <Tab component="memory card related settings">SD Card</Tab>
+          <Tab component={<Login />}>Login</Tab>
+        </Tabs>
 
         <h2 className="my-5 text-xl font-bold">Camera Settings</h2>
 
