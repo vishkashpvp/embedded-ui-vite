@@ -1,4 +1,6 @@
-/* GLOBAL */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body,
 html {
@@ -9,74 +11,14 @@ html {
   height: 100vh;
   overflow: hidden;
 }
-body {
-  padding: 2rem;
-}
 
 input {
-  width: 300px;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  @apply w-[300px] p-[10px] mb-[10px] rounded-lg border;
 }
 
 button {
-  width: 100%;
-  max-width: 400px;
-  padding: 10px;
-  color: black;
-  background-color: #b2fff1;
-  border: none;
-  border-radius: 1rem;
-  cursor: pointer;
-}
-button:hover {
-  color: white;
-  background-color: #1fbfa2;
-}
-button:disabled {
-  color: black;
-  background-color: gray;
-  cursor: not-allowed;
-}
-
-/* LOGIN PAGE */
-
-.login-page {
-  padding: 2rem;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.login-page.active {
-  display: block;
-}
-
-/* DASHBOARD PAGE */
-
-.dashboard-page {
-  display: none;
-  width: 100vw;
-  height: 100vh;
-}
-
-.dashboard-page.active {
-  display: flex;
-  flex-direction: column;
-}
-
-/* ERROR PAGE */
-
-.error-page {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  @apply w-full max-w-[400px] p-[10px] rounded-2xl
+   text-black bg-[#73f4dc] 
+   hover:text-white hover:bg-[#46b39f]
+   disabled:text-black disabled:cursor-not-allowed disabled:bg-gray-400;
 }

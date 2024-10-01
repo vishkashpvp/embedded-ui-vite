@@ -38,8 +38,7 @@ export default function Dashboard() {
   const [error, setError] = useState(null);
 
   const hostname = window.location.hostname;
-  const API_CONFIG = `${hostname}:8000/config/get`;
-  const API_CAT_FACTS = "https://catfact.ninja/fact";
+  const API_CONFIG = `http://${hostname}:8000/config/get`;
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -82,10 +81,6 @@ export default function Dashboard() {
       setUsername(username);
 
       fetch(API_CONFIG)
-        .then((data) => console.log("data :>> ", data))
-        .catch((err) => console.log("err :>> ", err));
-
-      fetch(API_CAT_FACTS)
         .then((response) => {
           if (!response.ok) throw new Error("Network response was not ok");
           return response.json();
@@ -105,40 +100,37 @@ export default function Dashboard() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div id="dashboardPage" className="dashboard active">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <h1 style={{ margin: 0 }}>Welcome Dashboard</h1>
-        <button onClick={handleLogout} style={{ width: "100px" }}>
+    <div id="dashboardPage" className="flex flex-col w-screen h-screen overflow-y-auto">
+      <div className="sticky top-0 flex items-center justify-between w-full p-3 text-white bg-black">
+        <h1 className="m-0 text-3xl font-bold">Welcome Dashboard</h1>
+        <button className="w-[100px]" onClick={handleLogout}>
           Logout
         </button>
       </div>
-      <h3>{`Hello, ${username}!`}</h3>
-      <div style={{ backgroundColor: "#b2fff1", padding: "1rem" }}>{apiData?.fact}</div>
+      <div className="p-5">
+        <h3 className="text-xl">{`Hello, ${username}!`}</h3>
 
-      <h2>Camera Settings</h2>
+        <h2 className="my-5 text-xl font-bold">Camera Settings</h2>
 
-      <h2>Video</h2>
-      <form id="resolutionForm" onSubmit={handleSubmit}>
-        <StreamSettings
-          name={"main"}
-          values={mainStreamValues}
-          handleChange={handleChange}
-          options={mainStreamOptions}
-        />
-        <StreamSettings
-          name="sub"
-          values={subStreamValues}
-          handleChange={handleChange}
-          options={subStreamOptions}
-        />
-        <button
-          type="submit"
-          style={{ marginTop: "1rem", width: "300px" }}
-          disabled={!isFormValid()}
-        >
-          Submit
-        </button>
-      </form>
+        <h2 className="text-lg font-bold">Video</h2>
+        <form id="resolutionForm" className="gap-5" onSubmit={handleSubmit}>
+          <StreamSettings
+            name={"main"}
+            values={mainStreamValues}
+            handleChange={handleChange}
+            options={mainStreamOptions}
+          />
+          <StreamSettings
+            name="sub"
+            values={subStreamValues}
+            handleChange={handleChange}
+            options={subStreamOptions}
+          />
+          <button type="submit" className="mt-4 w-[300px]" disabled={!isFormValid()}>
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

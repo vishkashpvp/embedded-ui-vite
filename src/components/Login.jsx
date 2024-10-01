@@ -29,13 +29,10 @@ export default function Login() {
   }, [navigate]);
 
   return (
-    <div className="login-page">
-      <div>
-        <h1 style={{ margin: 0 }}>Login</h1>
-        <form
-          style={{ marginTop: "1rem", display: "flex", flexDirection: "column" }}
-          onSubmit={handleLogin}
-        >
+    <div className="flex items-center justify-center h-screen">
+      <div className="p-5 bg-white rounded">
+        <h1 className="text-3xl font-bold">Login</h1>
+        <form className="flex flex-col mt-4" onSubmit={handleLogin}>
           <input
             type="text"
             placeholder="Username"

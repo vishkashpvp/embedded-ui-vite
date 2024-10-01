@@ -22,9 +22,9 @@ export default function Error() {
   }, [isRpcConnected, navigate]);
 
   return (
-    <div className="error-page">
-      <h1>RPC Connection Error</h1>
-      <button onClick={handleReconnect}>Reconnect to RPC</button>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="mb-5">Connection Error</h1>
+      <button onClick={handleReconnect}>Reconnect</button>
     </div>
   );
 }

@@ -1,9 +1,9 @@
 export default function StreamSettings({ name, values, handleChange, options }) {
   return (
     <div id={`${name}-settings`}>
-      <h3 style={{ textTransform: "capitalize" }}>{name} Stream</h3>
-      <div style={{ display: "flex" }}>
-        <label htmlFor={`${name}Resolution`} style={{ width: "150px" }}>
+      <h3 className="capitalize">{name} Stream</h3>
+      <div className="flex">
+        <label htmlFor={`${name}Resolution`} className="w-[150px]">
           Resolution:
         </label>
         <select
@@ -21,8 +21,8 @@ export default function StreamSettings({ name, values, handleChange, options }) 
           ))}
         </select>
       </div>
-      <div style={{ display: "flex", marginTop: "0.75rem" }}>
-        <label htmlFor={`${name}Bitrate`} style={{ width: "150px" }}>
+      <div className="flex mt-3">
+        <label htmlFor={`${name}Bitrate`} className="w-[150px]">
           Bitrate:
         </label>
         <select
@@ -40,8 +40,8 @@ export default function StreamSettings({ name, values, handleChange, options }) 
           ))}
         </select>
       </div>
-      <div style={{ display: "flex", marginTop: "0.75rem" }}>
-        <label htmlFor={`${name}Fps`} style={{ width: "150px" }}>
+      <div className="flex mt-3">
+        <label htmlFor={`${name}Fps`} className="w-[150px]">
           FPS:
         </label>
         <select
@@ -59,8 +59,8 @@ export default function StreamSettings({ name, values, handleChange, options }) 
           ))}
         </select>
       </div>
-      <div style={{ display: "flex", marginTop: "0.75rem" }}>
-        <label htmlFor={`${name}AudioFormat`} style={{ width: "150px" }}>
+      <div className="flex mt-3">
+        <label htmlFor={`${name}AudioFormat`} className="w-[150px]">
           Audio Format:
         </label>
         <select
@@ -78,8 +78,8 @@ export default function StreamSettings({ name, values, handleChange, options }) 
           ))}
         </select>
       </div>
-      <div style={{ display: "flex", marginTop: "0.75rem" }}>
-        <label htmlFor={`${name}VideoFormat`} style={{ width: "150px" }}>
+      <div className="flex mt-3">
+        <label htmlFor={`${name}VideoFormat`} className="w-[150px]">
           Video Format:
         </label>
         <select
