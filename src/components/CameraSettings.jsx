@@ -52,8 +52,9 @@ export default function CameraSettings() {
   };
 
   return (
-    <>
+    <div className="w-[30rem] card-ui">
       <h2 className="text-lg font-bold">Video</h2>
+      <hr className="mt-3" />
       <form id="resolutionForm" className="gap-5" onSubmit={handleSubmit}>
         <StreamSettings
           name={"main"}
@@ -71,6 +72,6 @@ export default function CameraSettings() {
           Submit
         </button>
       </form>
-    </>
+    </div>
   );
 }

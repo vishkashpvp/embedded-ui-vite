@@ -13,7 +13,7 @@ export function Tabs({ children }) {
   const [activeTab, setActiveTab] = useState(findActiveTab(children));
   return (
     <>
-      <div className="z-50 flex gap-2 p-2">
+      <div className="z-50 flex gap-2 p-1 mt-2 bg-gray-200 rounded-full ms-5 w-fit">
         {children.map((item, i) => {
           return (
             <div key={i}>
@@ -31,7 +31,7 @@ export function Tabs({ children }) {
           );
         })}
       </div>
-      <div className="p-5">
+      <div className="p-5 pt-2">
         {children.map((item, i) => {
           return (
             <div key={i} className={` ${i === activeTab ? "visible" : "hidden"}`}>

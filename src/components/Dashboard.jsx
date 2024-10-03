@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useRpc from "../hooks/useRpc";
 import CameraSettings from "./CameraSettings";
-import Login from "./Login";
+import SdCard from "./SdCard";
 import { Tab, Tabs } from "./Tabs";
 
 export default function Dashboard() {
@@ -12,7 +12,6 @@ export default function Dashboard() {
   const [apiData, setApiData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const hostname = window.location.hostname;
   const API_CONFIG = `http://${hostname}:8000/config/get`;
 
@@ -57,7 +56,7 @@ export default function Dashboard() {
 
   return (
     <div id="dashboardPage" className="flex flex-col w-screen h-screen overflow-y-auto">
-      <div className="sticky top-0 flex items-center justify-between w-full p-3 text-white bg-black">
+      <div className="flex items-center justify-between w-full p-3 text-white bg-black">
         <h1 className="m-0 text-3xl font-bold">Welcome Dashboard</h1>
         <div className="flex items-center">
           <p className="text-xl">{username}</p>
@@ -66,15 +65,10 @@ export default function Dashboard() {
           </button>
         </div>
       </div>
-      <div className="p-5">
-        <Tabs>
-          <Tab component={<CameraSettings />} active>
-            Camera Settings
-          </Tab>
-          <Tab component="memory card related settings">SD Card</Tab>
-          <Tab component={<Login />}>Login</Tab>
-        </Tabs>
-      </div>
+      <Tabs>
+        <Tab component={<CameraSettings />}>Camera Settings</Tab>
+        <Tab component={<SdCard />}>SD Card</Tab>
+      </Tabs>
     </div>
   );
 }

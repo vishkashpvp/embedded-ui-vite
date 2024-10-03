@@ -1,8 +1,8 @@
 export default function StreamSettings({ name, values, handleChange, options }) {
   return (
     <div id={`${name}-settings`}>
-      <h3 className="capitalize">{name} Stream</h3>
-      <div className="flex">
+      <h3 className="my-5 font-bold capitalize">{name} Stream</h3>
+      <div className="flex items-center">
         <label htmlFor={`${name}Resolution`} className="w-[150px]">
           Resolution:
         </label>
@@ -21,7 +21,7 @@ export default function StreamSettings({ name, values, handleChange, options }) 
           ))}
         </select>
       </div>
-      <div className="flex mt-3">
+      <div className="flex items-center mt-3">
         <label htmlFor={`${name}Bitrate`} className="w-[150px]">
           Bitrate:
         </label>
@@ -40,7 +40,7 @@ export default function StreamSettings({ name, values, handleChange, options }) 
           ))}
         </select>
       </div>
-      <div className="flex mt-3">
+      <div className="flex items-center mt-3">
         <label htmlFor={`${name}Fps`} className="w-[150px]">
           FPS:
         </label>
@@ -59,7 +59,7 @@ export default function StreamSettings({ name, values, handleChange, options }) 
           ))}
         </select>
       </div>
-      <div className="flex mt-3">
+      <div className="flex items-center mt-3">
         <label htmlFor={`${name}AudioFormat`} className="w-[150px]">
           Audio Format:
         </label>
@@ -78,7 +78,7 @@ export default function StreamSettings({ name, values, handleChange, options }) 
           ))}
         </select>
       </div>
-      <div className="flex mt-3">
+      <div className="flex items-center mt-3">
         <label htmlFor={`${name}VideoFormat`} className="w-[150px]">
           Video Format:
         </label>

@@ -15,10 +15,16 @@ html {
 input {
   @apply w-[300px] p-[10px] mb-[10px] rounded-lg border;
 }
-
+select {
+  @apply w-64 p-2 bg-gray-100;
+}
 button {
   @apply w-full max-w-[400px] p-[10px] rounded-2xl
    text-black bg-[#73f4dc] 
    hover:text-white hover:bg-[#46b39f]
    disabled:text-black disabled:cursor-not-allowed disabled:bg-gray-400;
+}
+
+.card-ui {
+  @apply p-5 bg-white border rounded;
 }
