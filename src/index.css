@@ -26,5 +26,5 @@ button {
 }
 
 .card-ui {
-  @apply p-5 bg-white border rounded;
+  @apply p-5 bg-white border rounded shadow-xl;
 }
