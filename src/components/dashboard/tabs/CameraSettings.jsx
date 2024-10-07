@@ -1,6 +1,6 @@
 import { useState } from "react";
-import StreamSettings from "./StreamSettings";
-import useRpc from "../hooks/useRpc";
+import StreamSettings from "../../StreamSettings";
+import useRpc from "../../../hooks/useRpc";
 
 const mainStreamOptions = {
   resolution: ["1280x720", "1920x1080", "3840×2160"],
