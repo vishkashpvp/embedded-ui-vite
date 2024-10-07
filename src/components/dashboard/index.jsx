@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useRpc from "../../hooks/useRpc";
-import CameraSettings from "../CameraSettings";
-import SdCard from "../SdCard";
 import { Tab, Tabs } from "../../ui/Tabs";
-import DeviceInfo from "../DeviceInfo";
-import SystemSettings from "../SystemSettings";
-import Firmware from "../Firmware";
-import Network from "../Network";
+import CameraSettings from "../tabs/CameraSettings";
+import SdCard from "../tabs/SdCard";
+import DeviceInfo from "../tabs/DeviceInfo";
+import SystemSettings from "../tabs/SystemSettings";
+import Firmware from "../tabs/Firmware";
+import Network from "../tabs/Network";
 
 export default function Dashboard() {
   const navigate = useNavigate();
