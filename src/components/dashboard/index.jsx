@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useRpc from "../hooks/useRpc";
-import CameraSettings from "./CameraSettings";
-import SdCard from "./SdCard";
-import { Tab, Tabs } from "./Tabs";
+import useRpc from "../../hooks/useRpc";
+import CameraSettings from "../CameraSettings";
+import SdCard from "../SdCard";
+import { Tab, Tabs } from "../../ui/Tabs";
+import DeviceInfo from "../DeviceInfo";
+import SystemSettings from "../SystemSettings";
+import Firmware from "../Firmware";
+import Network from "../Network";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -30,9 +34,11 @@ export default function Dashboard() {
     const username = localStorage.getItem("username");
     if (!username) {
       navigate("/");
-    } else if (!isRpcConnected) {
-      navigate("/error");
-    } else {
+    }
+    //  else if (!isRpcConnected) {
+    //   navigate("/error");
+    // }
+    else {
       setUsername(username);
 
       fetch(API_CONFIG)
@@ -52,7 +58,7 @@ export default function Dashboard() {
   }, [API_CONFIG, isRpcConnected, navigate]);
 
   if (loading) return <p>Loading dashboard data...</p>;
-  if (error) return <p>Error: {error}</p>;
+  // if (error) return <p>Error: {error}</p>;
 
   return (
     <div id="dashboardPage" className="flex flex-col w-screen h-screen overflow-y-auto">
@@ -68,6 +74,10 @@ export default function Dashboard() {
       <Tabs>
         <Tab component={<CameraSettings />}>Camera Settings</Tab>
         <Tab component={<SdCard />}>SD Card</Tab>
+        <Tab component={<DeviceInfo />}>Device Info</Tab>
+        <Tab component={<SystemSettings />}>System Settings</Tab>
+        <Tab component={<Firmware />}>Firmware</Tab>
+        <Tab component={<Network />}>Network</Tab>
       </Tabs>
     </div>
   );
