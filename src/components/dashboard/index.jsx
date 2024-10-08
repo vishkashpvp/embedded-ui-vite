@@ -34,11 +34,9 @@ export default function Dashboard() {
     const username = localStorage.getItem("username");
     if (!username) {
       navigate("/");
-    }
-    //  else if (!isRpcConnected) {
-    //   navigate("/error");
-    // }
-    else {
+    } else if (!isRpcConnected) {
+      navigate("/error");
+    } else {
       setUsername(username);
 
       fetch(API_CONFIG)
@@ -58,7 +56,7 @@ export default function Dashboard() {
   }, [API_CONFIG, isRpcConnected, navigate]);
 
   if (loading) return <p>Loading dashboard data...</p>;
-  // if (error) return <p>Error: {error}</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div id="dashboardPage" className="flex flex-col w-screen h-screen overflow-y-auto">
