@@ -45,10 +45,15 @@ export default function CameraSettings() {
     return !hasEmptyMainStream && !hasEmptySubStream;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const params = { mainStream: mainStreamValues, subStream: subStreamValues };
-    rpc.call("av_settings", params);
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const params = { mainStream: mainStreamValues, subStream: subStreamValues };
+      const response = await rpc.call("av_settings", params);
+      console.log("received 'av_settings' rpc response :>> ", response);
+    } catch (err) {
+      console.log("err :>> ", err);
+    }
   };
 
   return (

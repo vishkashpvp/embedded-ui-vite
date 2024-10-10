@@ -8,28 +8,24 @@ export default function SdCard() {
   const [cardInfo, setCardInfo] = useState(EMPTY_VALUES);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const hostname = window.location.hostname;
-  const API_URL = `http://${hostname}:8000/sdcardStats`;
 
   const fetchSdcardInfo = async () => {
-    fetch(API_URL)
-      .then((response) => {
-        if (!response.ok) throw new Error("Network response was not ok");
-        return response.json();
-      })
-      .then((data) => {
-        setCardInfo(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+    try {
+      const params = {};
+      const response = await rpc.call("getSdcardStats", params);
+      console.log("received 'getSdcardStats' rpc response :>> ", response);
+      // setCardInfo(response)
+      setLoading(false);
+    } catch (err) {
+      console.log("err :>> ", err);
+      setError(err.message);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    fetchSdcardInfo();
-  }, []);
+    if (rpc) fetchSdcardInfo();
+  }, [rpc]);
 
   if (loading) return <p>Loading sd card info data...</p>;
   if (error) return <p>Error: {error}</p>;
